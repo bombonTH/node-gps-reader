@@ -1,0 +1,11 @@
+{
+  "name": "gps-reader",
+  "version": "1.0.0",
+  "description": "nodejs parser for gps.",
+  "main": "src",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
