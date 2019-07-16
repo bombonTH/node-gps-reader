@@ -80,11 +80,26 @@ function decodeRMC(data) {
     data.speedKnot = parseFloat(groups[12]);
     data.trackTrue = parseFloat(groups[13]);
     data.variation = parseFloat(groups[17]) * (groups[18] === "E" ? 1 : -1);
+    data.status = groups[5];
+}
+
+function decodeGLL(data) {
+    const gpgll = /(\d{2})(\d{2}\.\d+),([NS]),(\d{3})(\d{2}\.\d+),([EW]),?(\d{2})?(\d{2})?(\d{2})?\.?(\d+)?,?([AV])?/;
+    let groups = gpgll.exec(data.payload);
+    if (!groups) {
+        data.valid = false;
+        return data;
+    }
+    data.time = [groups[7], groups[8], groups[9], groups[10] || 0];
+    data.lat = (parseInt(groups[1]) + (groups[2] / 60)) * (groups[3] === 'N' ? 1 : -1);
+    data.lng = (parseInt(groups[4]) + (groups[5] / 60)) * (groups[6] === 'E' ? 1 : -1);
+    data.status = groups[11];
 }
 
 decoder.GGA = decodeGGA;
 decoder.VTG = decodeVTG;
 decoder.HDT = decodeHDT;
 decoder.RMC = decodeRMC;
+decoder.GLL = decodeGLL;
 
 module.exports = decoder;
