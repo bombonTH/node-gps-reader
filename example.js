@@ -1,3 +1,5 @@
+'use strict'
+
 const nmea = require('./src/index.js');
 
 let data;

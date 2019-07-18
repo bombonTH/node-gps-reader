@@ -1,3 +1,4 @@
+'use strict'
 let decoder = {};
 
 const GPS_QUALITY = {

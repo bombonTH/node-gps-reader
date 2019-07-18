@@ -1,7 +1,15 @@
 'use strict'
 const decoder = require('./decoder');
 
-const NMEA_PATTERN = /[!$]((GP|HE|P|AI)(\w{3}),(.+)+)\*([0-9A-F]{2})/;
+const NMEA_PATTERN = /[!$]((GP|HE|P|AI)(\w{3}),(.+))\*([0-9A-F]{2})/;
+
+const isNMEA = function (raw) {
+    raw = raw.toString().trim();
+    if (!NMEA_PATTERN.exec(raw)) {
+        return false;
+    }
+    return true;
+}
 
 const parse = function (raw) {
     raw = raw.toString().trim();
@@ -43,5 +51,6 @@ const getChecksum = function (text) {
 
 module.exports = {
     parse: parse,
-    getChecksum: getChecksum
+    getChecksum: getChecksum,
+    isNMEA: isNMEA
 };
