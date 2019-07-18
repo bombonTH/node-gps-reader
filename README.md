@@ -21,6 +21,7 @@ Usage:
 ```js
 const nmea = require('gps-reader')
 
+/* Result
 ################################################################
 Testing GGA decoder.
 Raw: $GPGGA,012906.00,2741.79668,N,12226.25185,E,1,11,0.86,14.2,M,15.5,M,,*60
@@ -62,6 +63,7 @@ Position: φ 49.27417 - λ -123.18533
 Fix Status: A
 End of GLL decoder test.
 ################################################################
+*/
 ```
 
 New decoder can be registered manually in src/decoder.js
