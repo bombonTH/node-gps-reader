@@ -1,7 +1,7 @@
 'use strict'
 const decoder = require('./decoder');
 
-const NMEA_PATTERN = /[!$]((GP|HE|P|AI)(\w{3}),(.+))\*([0-9A-F]{2})/;
+const NMEA_PATTERN = /[!$]((GP|GN|GL|HE|P|AI)(\w{3}),(.+))\*([0-9A-F]{2})/;
 
 const isNMEA = function (raw) {
     raw = raw.toString().trim();
