@@ -1,4 +1,3 @@
-'use strict'
 let decoder = {};
 
 const GPS_QUALITY = {
@@ -68,7 +67,7 @@ function decodeHDT(data) {
 }
 
 function decodeRMC(data) {
-    const gprmc = /(\d{2})(\d{2})(\d{2})\.?(\d+)?,([AV]),(\d{2})(\d{2}\.\d+),([NS]),(\d{3})(\d{2}\.\d+),([EW]),(\d{3}\.\d+),(\d{3}\.\d+),(\d{2})(\d{2})(\d{2}),(\d{3}\.\d+),([EW])/;
+    const gprmc = /(\d{2})(\d{2})(\d{2})\.?(\d+)?,([AV]),(\d{2})(\d{2}\.\d+),([NS]),(\d{3})(\d{2}\.\d+),([EW]),(\d+\.\d+),(\d{3}\.\d+)?,(\d{2})(\d{2})(\d{2}),(\d{3}\.\d+)?,([EW])?,?([ADEMSNP])?/;
     let groups = gprmc.exec(data.payload);
     if (!groups) {
         data.valid = false;
@@ -79,8 +78,8 @@ function decodeRMC(data) {
     data.lat = (parseInt(groups[6]) + (groups[7] / 60)) * (groups[8] === "N" ? 1 : -1);
     data.lng = (parseInt(groups[9]) + (groups[10] / 60)) * (groups[11] === "E" ? 1 : -1);
     data.speedKnot = parseFloat(groups[12]);
-    data.trackTrue = parseFloat(groups[13]);
-    data.variation = parseFloat(groups[17]) * (groups[18] === "E" ? 1 : -1);
+    data.trackTrue = parseFloat(groups[13] || 0);
+    data.variation = parseFloat(groups[17] || 0) * (groups[18] === "E" ? 1 : -1);
     data.status = groups[5];
 }
 

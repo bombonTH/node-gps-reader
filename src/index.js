@@ -1,15 +1,9 @@
 'use strict'
 const decoder = require('./decoder');
 
-const NMEA_PATTERN = /[!$]((GP|GN|GL|HE|P|AI)(\w{3}),(.+))\*([0-9A-F]{2})/;
+const NMEA_PATTERN = /[!$]((GP|GN|GL|HE|P|AI)(\w{3}),(.+)+)\*([0-9A-F]{2})/;
 
-const isNMEA = function (raw) {
-    raw = raw.toString().trim();
-    if (!NMEA_PATTERN.exec(raw)) {
-        return false;
-    }
-    return true;
-}
+let debug = false;
 
 const parse = function (raw) {
     raw = raw.toString().trim();
@@ -26,7 +20,7 @@ const parse = function (raw) {
     } else if (decoder[data.format]) {
         decoder[data.format](data);
     } else {
-        console.log(`Format ${data.format} is not yet supported.`);
+        if (debug) console.log(`Format ${data.format} is not yet supported.`);
     }
     return data;
 }
@@ -40,7 +34,7 @@ const validLine = function (raw) {
     data.format = groups[3];
     data.payload = groups[4];
     if (!data.valid) {
-        console.log(`Checksum invalid. Should have been ${getChecksum(groups[1]).toString(16)}`);
+        if (debug) console.log(`Checksum invalid. Should have been ${getChecksum(groups[1]).toString(16)}`);
     }
     return data;
 }
@@ -52,5 +46,5 @@ const getChecksum = function (text) {
 module.exports = {
     parse: parse,
     getChecksum: getChecksum,
-    isNMEA: isNMEA
+    debug: debug
 };
