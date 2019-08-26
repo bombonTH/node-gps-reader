@@ -67,7 +67,7 @@ function decodeHDT(data) {
 }
 
 function decodeRMC(data) {
-    const gprmc = /(\d{2})(\d{2})(\d{2})\.?(\d+)?,([AV]),(\d{2})(\d{2}\.\d+),([NS]),(\d{3})(\d{2}\.\d+),([EW]),(\d+\.\d+),(\d{3}\.\d+)?,(\d{2})(\d{2})(\d{2}),(\d{3}\.\d+)?,([EW])?,?([ADEMSNP])?/;
+    const gprmc = /(\d{2})(\d{2})(\d{2})\.?(\d+)?,([AV]),(\d{2})(\d{2}\.\d+),([NS]),(\d{3})(\d{2}\.\d+),([EW]),(\d+\.\d+),(\d{3}\.\d+)?,(\d{2})(\d{2})(\d{2}),(\d+\.\d+)?,([EW])?,?([ADEMSNP])?,?([SCUV])?/;
     let groups = gprmc.exec(data.payload);
     if (!groups) {
         data.valid = false;
@@ -81,6 +81,7 @@ function decodeRMC(data) {
     data.trackTrue = parseFloat(groups[13] || 0);
     data.variation = parseFloat(groups[17] || 0) * (groups[18] === "E" ? 1 : -1);
     data.status = groups[5];
+    data.timestamp = new Date(new Date().setUTCFullYear("20" + groups[16], parseInt(groups[15]) - 1, groups[14])).setUTCHours(groups[1], groups[2], groups[3], groups[4]);
 }
 
 function decodeGLL(data) {

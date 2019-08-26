@@ -1,6 +1,6 @@
 {
   "name": "gps-reader",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "nodejs parser for gps.",
   "main": "src",
   "scripts": {
